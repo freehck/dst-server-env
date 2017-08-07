@@ -1,0 +1,5 @@
+#!/bin/bash
+
+STEAMCMD=/usr/games/steamcmd
+$STEAMCMD +login anonymous +app_update 343050 +quit
+

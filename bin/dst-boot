@@ -1,0 +1,4 @@
+#!/bin/zsh
+set -e
+setopt NO_HUP
+svscan "$HOME/cluster-1" & disown

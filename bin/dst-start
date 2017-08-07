@@ -1,0 +1,15 @@
+#!/bin/zsh
+set -e
+setopt NO_HUP
+
+SHARD="$1"
+cd "$HOME/cluster-1"
+
+if [ -z $SHARD ]
+then
+    for serv in *
+    do svc -u $serv
+    done
+else
+    svc -u $SHARD
+fi

@@ -1,0 +1,130 @@
+#!/usr/bin/lua
+
+ku = arg[1]
+if arg[2] then
+  shard = arg[2]
+else
+  shard = "surf-1"
+end
+
+function trim1(s)
+  return (s:gsub("^%s*(.-)%s*$", "%1"))
+end
+
+p = io.popen("ls -t `find ~/.klei -name "..ku.."* | grep "..shard.."`/0* | head -1")
+session_file = trim1(p:read("*a"))
+p:close()
+s_info_file = os.tmpname()
+cmd = "strings "..session_file.." | head -1 > "..s_info_file
+os.execute(cmd)
+s_info = dofile(s_info_file)
+os.remove(s_info_file)
+print("(X,Y): ("..s_info.x..","..s_info.z..")")
+inv = s_info.data.inventory.items
+hands = s_info.data.inventory.equip.hands
+body = s_info.data.inventory.equip.body
+head = s_info.data.inventory.equip.head
+back = s_info.data.inventory.equip.back
+
+function table.has_key(table, k)
+   for key, _ in pairs(table) do
+      if key == k then
+	 return true
+      end
+   end
+   return false
+end
+
+-- hands
+if hands then
+   in_hands = hands.prefab
+else
+   in_hands = nil
+end
+
+print("Hands:",in_hands)
+
+-- body
+if body then
+   on_body = body.prefab
+else
+   on_body = nil
+end
+
+print("Body:",on_body)
+
+-- head
+if head then
+   on_head = head.prefab
+else
+   on_head = nil
+end
+
+print("Head:",on_head)
+
+-- back
+if back then
+   on_back = back.prefab
+else
+   on_back = nil
+end
+
+print("Back:",on_back)
+
+-- inventory
+print()
+print("Inv:")
+for i=1,#inv do
+   local prefab = inv[i].prefab
+   local stack
+   if inv[i].data and inv[i].data.stackable then
+      stack = inv[i].data.stackable.stack else stack = nil end
+   if stack then
+     if #prefab >= 16 then
+       print(prefab.."\t"..stack)
+     elseif #prefab >= 8 then
+       print(prefab.."\t\t"..stack)
+     else
+       print(prefab.."\t\t\t"..stack)
+   end
+   else
+     print(prefab)
+   end
+end
+
+if back and back.data and back.data.container and back.data.container.items then
+   local backpack = back.data.container.items
+   for i=1,#backpack do
+      local prefab = backpack[i].prefab
+      local stack
+      if backpack[i].data and backpack[i].data.stackable then
+	 stack = backpack[i].data.stackable.stack
+      else
+	 stack = nil
+      end
+      if stack then
+        if #prefab >= 16 then
+          print(prefab.."\t"..stack)
+        elseif #prefab >= 8 then
+	  print(prefab.."\t\t"..stack)
+	else
+	  print(prefab.."\t\t\t"..stack)
+	end
+      else
+        print(prefab)
+      end
+   end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+

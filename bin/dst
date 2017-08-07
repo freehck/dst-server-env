@@ -1,0 +1,11 @@
+#!/bin/bash
+
+DST_DIR="$HOME/.steam/SteamApps/common/Don't Starve Together Dedicated Server/bin/"
+DST_EXE="./dontstarve_dedicated_server_nullrenderer"
+
+
+(
+    cd $DST_DIR;
+    $DST_EXE
+)
+

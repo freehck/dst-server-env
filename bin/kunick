@@ -1,0 +1,14 @@
+#!/bin/bash
+
+declare -A users=(
+    ["mag"]="KU_w6c_d7iq"
+    ["magnetar"]="KU_w6c_d7iq"
+    ["gans"]="KU_6roR0Bgu"
+    ["lera"]="KU_c2kxJFbr"
+    ["free"]="KU_CT99I4oP"
+    ["foxy"]="KU_YhiKhjfu"
+    ["star"]="KU_7jBnfOI2"
+    )
+
+echo "${users[$1]}"
+
